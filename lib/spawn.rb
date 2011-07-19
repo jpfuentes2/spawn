@@ -1,4 +1,7 @@
 module Spawn
+  RAILS_1_x = (::Rails::VERSION::MAJOR == 1) unless defined?(RAILS_1_x)
+  RAILS_2_2 = (::Rails::VERSION::MAJOR > 2 || (::Rails::VERSION::MAJOR == 2 && ::Rails::VERSION::MINOR >= 2)) unless defined?(RAILS_2_2)
+
   @@default_options = {
     # default to forking (unless windows or jruby)
     :method => ((RUBY_PLATFORM =~ /(win32|java)/) ? :thread : :fork),
@@ -188,3 +191,5 @@ end
 ActiveRecord::Base.send :include, Spawn
 ActionController::Base.send :include, Spawn
 ActiveRecord::Observer.send :include, Spawn
+
+require 'patches'
